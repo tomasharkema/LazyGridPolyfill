@@ -10,21 +10,19 @@ import SwiftUI
 struct GridLegacy<Data, ID, Content2: View>: View where Data.Element: Identifiable & Hashable, Data: RandomAccessCollection, ID == Data.Element.ID, Data.Index == Int {
   private let columns: Int
   private let spacing: CGFloat
-  private let fullWidth: CGFloat
+  @State var fullWidth: CGFloat = 100
   private let c: ForEach<Data, ID, Content2>
   private var chunks: [EnumeratedSequence<[[Data.Element]]>.Element] {
     return Array(c.data.chunked(into: columns).enumerated())
   }
 
   @inlinable public init(
-    columns: Int,
-    spacing: CGFloat,
-    fullWidth: CGFloat,
+    columns: Int = 4,
+    spacing: CGFloat = 1,
     @ViewBuilder content: () -> ForEach<Data, ID, Content2>
   ) {
     self.columns = columns
     self.spacing = spacing
-    self.fullWidth = fullWidth
     c = content()
   }
 
@@ -37,7 +35,10 @@ struct GridLegacy<Data, ID, Content2: View>: View where Data.Element: Identifiab
           }
         }
       }
-    }
+    }.background(GeometryReader { proxy -> AnyView in
+      fullWidth = proxy.size.width
+      return AnyView(Rectangle().fill(Color.clear))
+    })
   }
 
   struct LazyContent: View {

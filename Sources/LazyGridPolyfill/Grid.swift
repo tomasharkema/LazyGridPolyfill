@@ -10,18 +10,15 @@ import SwiftUI
 public struct Grid<Data, ID, Content2: View>: View where Data.Element: Identifiable & Hashable, Data: RandomAccessCollection, ID == Data.Element.ID, Data.Index == Int {
   private let columns: Int
   private let spacing: CGFloat
-  private let fullWidth: CGFloat
   private let content: () -> ForEach<Data, ID, Content2>
 
   public init(
-    columns: Int,
-    spacing: CGFloat = 0,
-    fullWidth: CGFloat,
+    columns: Int = 4,
+    spacing: CGFloat = 1,
     @ViewBuilder content: @escaping () -> ForEach<Data, ID, Content2>
   ) {
     self.columns = columns
     self.spacing = spacing
-    self.fullWidth = fullWidth
     self.content = content
   }
 
@@ -30,7 +27,7 @@ public struct Grid<Data, ID, Content2: View>: View where Data.Element: Identifia
       return AnyView(GridNew(columns: max(1, columns), spacing: spacing, content: content))
     } else {
       return AnyView(
-        GridLegacy(columns: max(1, columns), spacing: spacing, fullWidth: fullWidth, content: content)
+        GridLegacy(columns: max(1, columns), spacing: spacing, content: content)
       )
     }
   }

@@ -12,7 +12,7 @@ struct HelloWorld: View {
     ScrollView {
       Text("I Am A Header")
       
-      Grid(columns: Int(fullWidth / size.projectedWidth), spacing: 1, fullWidth: fullWidth) {
+      Grid() {
         ForEach(items) { item in
           render(item: item)
         }
