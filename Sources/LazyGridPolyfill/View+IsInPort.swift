@@ -8,7 +8,7 @@
 import SwiftUI
 
 extension View {
-  func isInViewPort(_ handler: @escaping (Bool) -> ()) -> some View {
+  public func isInViewPort(_ handler: @escaping (Bool) -> ()) -> some View {
     return self.overlay(GeometryReader { proxy -> AnyView in
       let frame = proxy.frame(in: .global)
       let isInView = frame.intersects(UIScreen.main.bounds)
